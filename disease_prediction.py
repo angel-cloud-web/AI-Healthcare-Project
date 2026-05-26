@@ -1,24 +1,33 @@
-print("=== AI Healthcare Disease Prediction System ===")
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
 
-name = input("Enter patient name: ")
-age = input("Enter patient age: ")
-symptom = input("Enter your symptom: ")
+# Sample healthcare dataset
+data = {
+    'fever': [1, 1, 0, 0],
+    'cough': [1, 0, 1, 0],
+    'headache': [1, 1, 0, 1],
+    'disease': ['Flu', 'Viral Fever', 'Cold', 'Migraine']
+}
 
-print("\nAnalyzing symptoms...\n")
+# Create dataframe
+df = pd.DataFrame(data)
 
-if symptom.lower() == "fever":
-    print("Possible Disease: Viral Infection")
+# Features and target
+X = df[['fever', 'cough', 'headache']]
+y = df['disease']
 
-elif symptom.lower() == "cough":
-    print("Possible Disease: Common Cold")
+# Train model
+model = DecisionTreeClassifier()
+model.fit(X, y)
 
-elif symptom.lower() == "headache":
-    print("Possible Disease: Migraine")
+print("=== AI Healthcare Prediction System ===")
 
-elif symptom.lower() == "chest pain":
-    print("Possible Disease: Heart-related issue")
+# User input
+fever = int(input("Fever? (1=yes, 0=no): "))
+cough = int(input("Cough? (1=yes, 0=no): "))
+headache = int(input("Headache? (1=yes, 0=no): "))
 
-else:
-    print("Please consult a doctor for proper diagnosis.")
+# Prediction
+prediction = model.predict([[fever, cough, headache]])
 
-print("\nThank you for using AI Healthcare System.")
+print("Predicted Disease:", prediction[0])
